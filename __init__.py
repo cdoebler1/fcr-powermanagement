@@ -27,7 +27,7 @@ class Winston_reporting(MycroftSkill):
     def winston_power(self, message):
         power = os.system('/home/pi/mycroft-core/skills/'
                           'fcr-powermanagement.cdoebler1/get_power.sh')
-        self.speak("My power level is good.)
+        self.speak("My power level is good.")
 #        power = power.communicate()[0].decode('ascii')[9:-7]
 #        self.speak("I am at {} percent power."
 #                   .format(power))
