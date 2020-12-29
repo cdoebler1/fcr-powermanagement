@@ -2,7 +2,7 @@ from mycroft import MycroftSkill, intent_file_handler
 import subprocess
 
 
-class Winston_reporting(MycroftSkill):
+class fcr_reporting(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
@@ -33,4 +33,4 @@ class Winston_reporting(MycroftSkill):
 
 
 def create_skill():
-    return Winston_reporting()
+    return fcr_reporting()
