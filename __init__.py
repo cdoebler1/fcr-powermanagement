@@ -23,7 +23,7 @@ class Winston_reporting(MycroftSkill):
 
     @intent_file_handler('fcr.power.intent')
     def winston_power(self, message):
-        power = subprocess.Popen(['/home/pi/mycroft-core/skills/'
+        power = subprocess.call(['/home/pi/mycroft-core/skills/'
                                  'fcr-powermanagement.cdoebler1/get_power.sh'],
                                  stdout=subprocess.PIPE)
         power = power.communicate()[0].decode('ascii')[9:-7]
