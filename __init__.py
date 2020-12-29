@@ -1,6 +1,5 @@
 from mycroft import MycroftSkill, intent_file_handler
 import subprocess
-import os
 
 
 class Winston_reporting(MycroftSkill):
@@ -24,13 +23,10 @@ class Winston_reporting(MycroftSkill):
 
     @intent_file_handler('fcr.power.intent')
     def winston_power(self, message):
-        power = os.system('/home/pi/mycroft-core/skills/'
-                          'fcr-powermanagement.cdoebler1/get_power.sh')
-        self.speak("My power level is good.")
-        print(power)
-#        power = power.communicate()[0].decode('ascii')[9:-7]
-#        self.speak("I am at {} percent power."
-#                   .format(power))
+        p = 'echo "get battery" | nc -q 0 127.0.0.1 8423'
+        pwr = subprocess.Popen(['sudo', 'sh', '-c', p], stdout=subprocess.PIPE)
+        pwr = pwr.communicate()[0].decode('ascii')[9:-7]
+        self.speak("I am at {} percent power.".format(pwr))
 
     def stop(self):
         pass
