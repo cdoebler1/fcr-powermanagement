@@ -1,7 +1,6 @@
 from mycroft import MycroftSkill, intent_file_handler
 import subprocess
 import os
-import sys
 
 
 class Winston_reporting(MycroftSkill):
