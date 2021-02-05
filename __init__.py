@@ -27,7 +27,9 @@ class fcr_reporting(MycroftSkill):
     def winston_power(self, message):
         p = 'echo "get battery" | nc -q 0 127.0.0.1 8423'
         pwr = subprocess.Popen(['sudo', 'sh', '-c', p], stdout=subprocess.PIPE)
-        pwr = pwr.communicate()[0].decode('ascii')[8:-7].strip()
+        pwr = int(pwr.communicate()[0].decode('ascii')[8:-7].strip())
+        if not pwr:
+            pwr = 100
         self.speak("I am at {} percent power.".format(pwr))
 
     def stop(self):
