@@ -2,6 +2,10 @@ from mycroft import MycroftSkill, intent_file_handler
 import subprocess
 from threading import Thread
 from time import sleep
+import smbus2
+
+DEVICE_BUS = 1
+DEVICE_ADDR = 0x17
 
 
 class fcr_reporting(MycroftSkill):
@@ -25,12 +29,17 @@ class fcr_reporting(MycroftSkill):
 
     @intent_file_handler('fcr.power.intent')
     def winston_power(self, message):
-        p = 'echo "get battery" | nc -q 0 127.0.0.1 8423'
-        pwr = subprocess.Popen(['sudo', 'sh', '-c', p], stdout=subprocess.PIPE)
-        pwr = pwr.communicate()[0].decode('ascii')[8:-7].strip()
-        if not pwr:
-            pwr = 100
-        self.speak("I am at {} percent power.".format(pwr))
+        bus = smbus2.SMBus(DEVICE_BUS)
+        aReceiveBuf = []
+        aReceiveBuf.append(0x00)
+        for i in range(1, 255):
+            aReceiveBuf.append(bus.read_byte_data(DEVICE_ADDR, i))
+#        p = 'echo "get battery" | nc -q 0 127.0.0.1 8423'
+#        pwr = pwr.communicate()[0].decode('ascii')[8:-7].strip()
+#        if not pwr:
+#            pwr = 100
+#        self.speak("I am at {} percent power.".format(pwr))
+        self.speak("Remaining power %d %%"% (aReceiveBuf[20] << 8 | aReceiveBuf[19]))
 
     def stop(self):
         pass
